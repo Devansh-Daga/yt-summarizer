@@ -1,6 +1,23 @@
 # 🎬 YouTube Video Summarizer
 ### World Fashion Exchange — Assessment Submission
-**Candidate:** Devansh | **Role:** Data & AI Analyst
+**Candidate:** Devansh 
+
+---
+
+## ⚠️ Important Note for Reviewers
+
+The live demo is deployed at: https://yt-summarizer-devansh.streamlit.app
+
+**If you see a transcript error on the deployed version** — this is because YouTube blocks transcript requests from cloud server IPs (AWS, Google Cloud, etc.). This is a known platform-level limitation, not a code bug.
+
+**To see the full working app:**
+1. Watch the demo video (link below) — shows all features working including Hindi translation, mind map, and history
+2. Or clone the repo and run locally:
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+Add your Groq API key to a `.env` file as `GROQ_API_KEY=your_key`
 
 ---
 
