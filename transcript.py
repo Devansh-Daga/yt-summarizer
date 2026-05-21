@@ -127,6 +127,14 @@ def fetch_transcript(url: str):
             return {"error": "❌ Transcripts are disabled for this video."}
         elif "unavailable" in error_str:
             return {"error": "❌ This video is unavailable."}
+        elif "ip" in error_str or "blocked" in error_str or "could not retrieve" in error_str:
+            return {"error": (
+                "⚠️ YouTube is blocking transcript access from this server's IP — "
+                "this is a known limitation when running on cloud platforms like Streamlit Cloud. "
+                "The app works perfectly when run locally. "
+                "Please refer to the demo video to see it in action, "
+                "or clone the repo and run: streamlit run app.py"
+            )}
         else:
             return {"error": f"❌ Something went wrong: {str(e)}"}
 
