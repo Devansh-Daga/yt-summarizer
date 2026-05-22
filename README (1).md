@@ -123,18 +123,23 @@ Groq would sometimes include formatting tags inside mind map node labels, making
 
 ---
 
-## How to Run
+## How to Run Locally
+```
+1. Clone the repo
+   git clone https://github.com/Devansh-Daga/yt-summarizer.git
 
-```bash
-# 1. Clone or download the project
-# 2. Install dependencies
-pip install -r requirements.txt
+2. Install dependencies
+   pip install -r requirements.txt
 
-# 3. Add your Groq API key to .env
-echo "GROQ_API_KEY=your_key_here" > .env
+3. Create a .env file in the root folder
+   cp .env.example .env
 
-# 4. Run
-streamlit run app.py
+4. Add your Groq API key to .env
+   GROQ_API_KEY=your_key_here
+   Get a free key at: https://console.groq.com
+
+5. Run the app
+   streamlit run app.py
 ```
 
 Get a free Groq API key at: https://console.groq.com
