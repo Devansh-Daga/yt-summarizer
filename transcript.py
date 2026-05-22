@@ -2,6 +2,8 @@ from youtube_transcript_api import YouTubeTranscriptApi
 import re
 import urllib.request
 import json
+import os
+import requests
 
 # ─────────────────────────────────────────
 # 1. URL VALIDATOR & VIDEO ID EXTRACTOR
@@ -38,8 +40,6 @@ def fetch_transcript(url: str):
         return {"error": url_error}
 
     try:
-        import os
-
         # Get ScraperAPI key — from Streamlit secrets (cloud) or .env (local)
         scraper_key = None
         try:
@@ -50,12 +50,13 @@ def fetch_transcript(url: str):
 
         # Use proxy on cloud, direct on local
         if scraper_key:
-            from youtube_transcript_api.proxies import GenericProxyConfig
-            yt = YouTubeTranscriptApi(
-                proxies=GenericProxyConfig(
-                    proxy_url=f"http://scraperapi:{scraper_key}@proxy-server.scraperapi.com:8001"
-                )
-            )
+            proxies = {
+                "http": f"http://scraperapi:{scraper_key}@proxy-server.scraperapi.com:8001",
+                "https": f"http://scraperapi:{scraper_key}@proxy-server.scraperapi.com:8001",
+            }
+            session = requests.Session()
+            session.proxies.update(proxies)
+            yt = YouTubeTranscriptApi(http_client=session)
         else:
             yt = YouTubeTranscriptApi()
 
