@@ -38,7 +38,24 @@ def fetch_transcript(url: str):
 
     try:
         # ── New API: fetch list of available transcripts ──
-        yt = YouTubeTranscriptApi()
+        import os
+        try:
+            import streamlit as st
+            scraper_key = st.secrets.get("SCRAPERAPI_KEY")
+        except:
+            scraper_key = os.getenv("SCRAPERAPI_KEY")
+
+        if scraper_key:
+            from youtube_transcript_api.proxies import GenericProxyConfig
+            yt = YouTubeTranscriptApi(
+                proxies=GenericProxyConfig(
+                    http_proxy=f"http://scraperapi:{scraper_key}@proxy-server.scraperapi.com:8001",
+                    https_proxy=f"http://scraperapi:{scraper_key}@proxy-server.scraperapi.com:8001",
+                )
+            )
+        else:
+            yt = YouTubeTranscriptApi()
+
         transcript_list = yt.list(video_id)
 
         transcript = None
