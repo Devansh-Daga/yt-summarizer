@@ -124,7 +124,7 @@ Groq would sometimes include formatting tags inside mind map node labels, making
 ---
 
 ## How to Run Locally
-
+```
 1. Clone the repo
    git clone https://github.com/Devansh-Daga/yt-summarizer.git
 
