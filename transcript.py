@@ -56,6 +56,7 @@ def fetch_transcript(url: str):
             }
             session = requests.Session()
             session.proxies.update(proxies)
+            session.verify = False
             yt = YouTubeTranscriptApi(http_client=session)
         else:
             yt = YouTubeTranscriptApi()
