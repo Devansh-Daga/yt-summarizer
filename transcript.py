@@ -2,6 +2,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 import re
 import urllib.request
 import json
+
 # ─────────────────────────────────────────
 # 1. URL VALIDATOR & VIDEO ID EXTRACTOR
 # ─────────────────────────────────────────
@@ -37,20 +38,22 @@ def fetch_transcript(url: str):
         return {"error": url_error}
 
     try:
-        # ── New API: fetch list of available transcripts ──
         import os
+
+        # Get ScraperAPI key — from Streamlit secrets (cloud) or .env (local)
+        scraper_key = None
         try:
             import streamlit as st
             scraper_key = st.secrets.get("SCRAPERAPI_KEY")
-        except:
+        except Exception:
             scraper_key = os.getenv("SCRAPERAPI_KEY")
 
+        # Use proxy on cloud, direct on local
         if scraper_key:
             from youtube_transcript_api.proxies import GenericProxyConfig
             yt = YouTubeTranscriptApi(
                 proxies=GenericProxyConfig(
-                    http_proxy=f"http://scraperapi:{scraper_key}@proxy-server.scraperapi.com:8001",
-                    https_proxy=f"http://scraperapi:{scraper_key}@proxy-server.scraperapi.com:8001",
+                    proxy_url=f"http://scraperapi:{scraper_key}@proxy-server.scraperapi.com:8001"
                 )
             )
         else:
@@ -180,6 +183,11 @@ def chunk_transcript(text: str, max_words: int = 3000) -> list:
         chunk = " ".join(words[i:i + max_words])
         chunks.append(chunk)
     return chunks
+
+
+# ─────────────────────────────────────────
+# 5. VIDEO TITLE FETCHER
+# ─────────────────────────────────────────
 
 def fetch_video_title(video_id: str) -> str:
     """
